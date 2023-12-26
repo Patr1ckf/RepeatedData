@@ -60,9 +60,7 @@ public class CompressionData {
                     }
                 int repetitions = Integer.parseInt(String.valueOf(repetitionsString));
 
-                for(int j = 0; j< repetitions; j++){
-                    decompressedData.append(currentCharacter);
-                }
+                decompressedData.append(String.valueOf(currentCharacter).repeat(Math.max(0, repetitions)));
                 i = k-1;
             }
             else{
