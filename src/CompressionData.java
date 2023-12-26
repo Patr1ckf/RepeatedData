@@ -16,6 +16,9 @@ public class CompressionData {
         int counter = 1;
         StringBuilder compressedData = new StringBuilder();
         ArrayList<Character> charactersContainer = splitData(data);
+        if (data.contains("±")) {
+            throw new IllegalArgumentException("'±' character in data!");
+        }
 
         for(int i=0; i<charactersContainer.size(); i++){
             currentCharacter = String.valueOf(charactersContainer.get(i));
@@ -42,10 +45,25 @@ public class CompressionData {
         for(int i=0; i<charactersContainer.size(); i++){
             currentCharacter = String.valueOf(charactersContainer.get(i));
             if(i<charactersContainer.size()-1 && charactersContainer.get(i+1) == '±'){
-                for(int j = 0; j< Integer.parseInt(String.valueOf(charactersContainer.get(i+2))); j++){
+                if(charactersContainer.get(i+1) == '±' && charactersContainer.get(i+2) == '±'){
+                    throw new IllegalArgumentException("Two consecutive '±' characters!!");
+                }
+
+                StringBuilder repetitionsString = new StringBuilder();
+                int k = i+2;
+                while (Character.isDigit(charactersContainer.get(k))) {
+                    repetitionsString.append(charactersContainer.get(k));
+                    k++;
+                    if(k >= charactersContainer.size()){
+                        break;
+                    }
+                    }
+                int repetitions = Integer.parseInt(String.valueOf(repetitionsString));
+
+                for(int j = 0; j< repetitions; j++){
                     decompressedData.append(currentCharacter);
                 }
-                i +=2;
+                i = k-1;
             }
             else{
                 decompressedData.append(currentCharacter);

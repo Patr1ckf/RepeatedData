@@ -1,3 +1,4 @@
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class InOutHandler {
@@ -6,7 +7,14 @@ public class InOutHandler {
 
     public static String read(String prompt){
         System.out.println(prompt);
-        return scanner.nextLine();
+        try{
+            return scanner.nextLine();
+        }
+        catch(NoSuchElementException exception){
+            System.out.println("Invalid input!");
+            scanner.nextLine();
+            return null;
+        }
     }
 
     public static void display(String output){
